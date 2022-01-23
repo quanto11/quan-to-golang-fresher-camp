@@ -1,0 +1,1 @@
+• As a user, I can browse all restaurants.
