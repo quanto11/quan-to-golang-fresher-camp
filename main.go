@@ -34,10 +34,10 @@ func main() {
 		log.Fatal(err)
 	}
 	// INSERT
-	//newUser := User{User_firstname: "To", User_lastname: "Quan", User_phonenumber: "0962xxx166", Username: "tohongquan", Password: "abc123"}
-	//if err := db.Create(&newUser); err != nil {
-	//	fmt.Println(err)
-	//}
+	newUser := User{User_firstname: "To", User_lastname: "Quan", User_phonenumber: "0962xxx166", Username: "tohongquan", Password: "abc123"}
+	if err := db.Create(&newUser); err != nil {
+		fmt.Println(err)
+	}
 
 	// SELECT
 	//SELECT list user
@@ -61,5 +61,5 @@ func main() {
 	db.Table(User{}.TableName()).Where("user_id = 4").Updates(UserUpdate{&emptyStr, &emptyStr})
 
 	//DELETE
-	//db.Table(User{}.TableName()).Where("user_id = 6").Delete(nil)
+	db.Table(User{}.TableName()).Where("user_id = 6").Delete(nil)
 }
