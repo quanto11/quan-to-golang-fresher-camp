@@ -1,0 +1,6 @@
+Câu hỏi:
+    Khoá chính (PK) trong table DB có công dụng gì? Vì sao dùng ID là số tự tăng? Khi nào một table dùng khoá chính trên nhiều cột?
+Trả lời:
+    - Khóa chính trong table DB xác định duy nhất từng bản ghi trong bảng. Khóa chính phải chứa giá trị "duy nhất" và không được chứa giá trị NULL. Trong một bảng chỉ có thể có một khóa chính và trong bảng, khóa chính này có thể bao gồm một hoặc nhiều cột (trường). Khi đọc dữ liệu qua khóa chính sẽ đạt hiệu năng cao nhất vì nó được lưu theo thứ tự địa chỉ vật lý trong bộ nhớ.
+    - Tự động tăng cho phép một số duy nhất được tạo tự động khi một bản ghi mới được thêm vào bảng.
+    - Ta sử dụng khóa trên nhiều cột khi trong một bảng không có bản ghi nào có những khóa này trùng nhau. Khóa nào nằm trước sẽ được ưu tiên sắp xếp trước và khi đọc dữ liệu hiệu năng cao hơn.
