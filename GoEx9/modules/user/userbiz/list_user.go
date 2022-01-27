@@ -28,6 +28,7 @@ func (biz *listUserBiz) ListUser(
 	filter *usermodel.Filter,
 	paging *common.Paging,
 ) ([]usermodel.User, error) {
+
 	result, err := biz.store.ListDataByCondition(ctx, nil, filter, paging)
 
 	return result, err

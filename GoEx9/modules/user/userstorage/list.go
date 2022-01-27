@@ -22,8 +22,10 @@ func (s *sqlStore) ListDataByCondition(ctx context.Context,
 
 	db = db.Table(usermodel.User{}.TableName()).Where(conditions)
 
-	if v := filter; v.Status == 0 || v.Status == 1 {
-		db = db.Where("status = ?", v.Status)
+	if v := filter; v != nil {
+		if v.Status > 0 {
+			db = db.Where("status = ?", v.Status)
+		}
 	}
 
 	if err := db.Count(&paging.Total).Error; err != nil {
