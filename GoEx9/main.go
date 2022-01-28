@@ -60,29 +60,7 @@ func main() {
 	{
 		user.POST("", ginuser.CreateUser(appCtx))
 
-		user.GET("/:id", func(c *gin.Context) {
-			id, err := strconv.Atoi(c.Param("id"))
-
-			if err != nil {
-				c.JSON(401, gin.H{
-					"error": err.Error(),
-				})
-
-				return
-			}
-
-			var data User
-
-			if err := db.Where("id = ?", id).First(&data).Error; err != nil {
-				c.JSON(401, gin.H{
-					"error": err.Error(),
-				})
-
-				return
-			}
-
-			c.JSON(http.StatusOK, data)
-		})
+		user.GET("/:id", ginuser.GetUser(appCtx))
 
 		user.GET("", ginuser.ListUser(appCtx))
 
