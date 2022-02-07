@@ -7,7 +7,8 @@ import (
 )
 
 type ListUserStore interface {
-	ListDataByCondition(ctx context.Context,
+	ListDataByCondition(
+		ctx context.Context,
 		conditions map[string]interface{},
 		filter *usermodel.Filter,
 		paging *common.Paging,

@@ -24,7 +24,7 @@ func GetUser(appCtx component.AppContext) gin.HandlerFunc {
 		store := userstorage.NewSQLStore(appCtx.GetMainDBConnection())
 		biz := userbiz.NewUserBiz(store)
 
-		result, err := biz.GetUser(c.Request.Context(), id)
+		result, err := biz.GetUser(c.Request.Context(), nil, id)
 
 		if err != nil {
 			c.JSON(401, map[string]interface{}{

@@ -7,35 +7,33 @@ import (
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"log"
-	"net/http"
 	"os"
-	"strconv"
 )
 
-type User struct {
-	UserId          int    `json:"id,omitempty" gorm:"column:id;"`
-	UserFirstname   string `json:"user_firstname" gorm:"column:user_firstname;"`
-	UserLastname    string `json:"user_lastname" gorm:"column:user_lastname;"`
-	UserPhonenumber string `json:"user_phonenumber" gorm:"column:user_phonenumber;"`
-	Username        string `json:"username" gorm:"column:username;"`
-	Password        string `json:"password" gorm:"column:password;"`
-}
-
-type UserUpdate struct {
-	UserFirstname   *string `json:"user_firstname" gorm:"column:user_firstname"`
-	UserLastname    *string `json:"user_lastname" gorm:"column:user_lastname"`
-	UserPhonenumber *string `json:"user_phonenumber" gorm:"column:user_phonenumber;"`
-	Username        *string `json:"username" gorm:"column:username;"`
-	Password        *string `json:"password" gorm:"column:password;"`
-}
-
-func (User) TableName() string {
-	return "users"
-}
-
-func (UserUpdate) TableName() string {
-	return User{}.TableName()
-}
+//type User struct {
+//	UserId          int    `json:"id,omitempty" gorm:"column:id;"`
+//	UserFirstname   string `json:"user_firstname" gorm:"column:user_firstname;"`
+//	UserLastname    string `json:"user_lastname" gorm:"column:user_lastname;"`
+//	UserPhonenumber string `json:"user_phonenumber" gorm:"column:user_phonenumber;"`
+//	Username        string `json:"username" gorm:"column:username;"`
+//	Password        string `json:"password" gorm:"column:password;"`
+//}
+//
+//type UserUpdate struct {
+//	UserFirstname   *string `json:"user_firstname" gorm:"column:user_firstname"`
+//	UserLastname    *string `json:"user_lastname" gorm:"column:user_lastname"`
+//	UserPhonenumber *string `json:"user_phonenumber" gorm:"column:user_phonenumber;"`
+//	Username        *string `json:"username" gorm:"column:username;"`
+//	Password        *string `json:"password" gorm:"column:password;"`
+//}
+//
+//func (User) TableName() string {
+//	return "users"
+//}
+//
+//func (UserUpdate) TableName() string {
+//	return User{}.TableName()
+//}
 
 func main() {
 
@@ -64,61 +62,63 @@ func main() {
 
 		user.GET("", ginuser.ListUser(appCtx))
 
-		user.PATCH("/:id", func(c *gin.Context) {
-			id, err := strconv.Atoi(c.Param("id"))
+		user.PATCH("/:id", ginuser.UpdateUser(appCtx))
 
-			if err != nil {
-				c.JSON(401, map[string]interface{}{
-					"error": err.Error(),
-				})
-
-				return
-			}
-
-			var data UserUpdate
-
-			if err := c.ShouldBind(&data); err != nil {
-				c.JSON(401, map[string]interface{}{
-					"error": err.Error(),
-				})
-
-				return
-			}
-
-			if err := db.Where("id = ?", id).Updates(data).Error; err != nil {
-				c.JSON(401, map[string]interface{}{
-					"error": "Update failed",
-				})
-
-				return
-			}
-
-			c.JSON(http.StatusOK, map[string]interface{}{
-				"update successfully": 1,
-			})
-		})
-
-		user.DELETE("/:id", func(c *gin.Context) {
-			id, err := strconv.Atoi(c.Param("id"))
-
-			if err != nil {
-				c.JSON(401, map[string]interface{}{
-					"error": err.Error(),
-				})
-
-				return
-			}
-
-			if err := db.Table(User{}.TableName()).Where("id = ?", id).Delete(nil).Error; err != nil {
-				c.JSON(401, map[string]interface{}{
-					"error": err.Error(),
-				})
-
-				return
-			}
-
-			c.JSON(200, map[string]interface{}{"ok": 1})
-		})
+		//user.PATCH("/:id", func(c *gin.Context) {
+		//	id, err := strconv.Atoi(c.Param("id"))
+		//
+		//	if err != nil {
+		//		c.JSON(401, map[string]interface{}{
+		//			"error": err.Error(),
+		//		})
+		//
+		//		return
+		//	}
+		//
+		//	var data UserUpdate
+		//
+		//	if err := c.ShouldBind(&data); err != nil {
+		//		c.JSON(401, map[string]interface{}{
+		//			"error": err.Error(),
+		//		})
+		//
+		//		return
+		//	}
+		//
+		//	if err := db.Where("id = ?", id).Updates(data).Error; err != nil {
+		//		c.JSON(401, map[string]interface{}{
+		//			"error": "Update failed",
+		//		})
+		//
+		//		return
+		//	}
+		//
+		//	c.JSON(http.StatusOK, map[string]interface{}{
+		//		"update successfully": 1,
+		//	})
+		//})
+		//
+		//user.DELETE("/:id", func(c *gin.Context) {
+		//	id, err := strconv.Atoi(c.Param("id"))
+		//
+		//	if err != nil {
+		//		c.JSON(401, map[string]interface{}{
+		//			"error": err.Error(),
+		//		})
+		//
+		//		return
+		//	}
+		//
+		//	if err := db.Table(User{}.TableName()).Where("id = ?", id).Delete(nil).Error; err != nil {
+		//		c.JSON(401, map[string]interface{}{
+		//			"error": err.Error(),
+		//		})
+		//
+		//		return
+		//	}
+		//
+		//	c.JSON(200, map[string]interface{}{"ok": 1})
+		//})
 	}
 	r.Run() // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
 }

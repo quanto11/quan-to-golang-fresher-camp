@@ -6,8 +6,10 @@ import (
 )
 
 type UserStore interface {
-	GetDataById(ctx context.Context,
-		id int,
+	FindDataByCondition(
+		ctx context.Context,
+		condition map[string]interface{},
+		moreKeys ...string,
 	) (usermodel.User, error)
 }
 
@@ -21,9 +23,11 @@ func NewUserBiz(store UserStore) *userBiz {
 
 func (biz *userBiz) GetUser(
 	ctx context.Context,
+	condition map[string]interface{},
 	id int,
+	moreKeys ...string,
 ) (usermodel.User, error) {
-	result, err := biz.store.GetDataById(ctx, id)
+	result, err := biz.store.FindDataByCondition(ctx, map[string]interface{}{"id": id})
 
 	return result, err
 }
