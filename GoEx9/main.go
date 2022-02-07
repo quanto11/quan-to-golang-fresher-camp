@@ -64,61 +64,7 @@ func main() {
 
 		user.PATCH("/:id", ginuser.UpdateUser(appCtx))
 
-		//user.PATCH("/:id", func(c *gin.Context) {
-		//	id, err := strconv.Atoi(c.Param("id"))
-		//
-		//	if err != nil {
-		//		c.JSON(401, map[string]interface{}{
-		//			"error": err.Error(),
-		//		})
-		//
-		//		return
-		//	}
-		//
-		//	var data UserUpdate
-		//
-		//	if err := c.ShouldBind(&data); err != nil {
-		//		c.JSON(401, map[string]interface{}{
-		//			"error": err.Error(),
-		//		})
-		//
-		//		return
-		//	}
-		//
-		//	if err := db.Where("id = ?", id).Updates(data).Error; err != nil {
-		//		c.JSON(401, map[string]interface{}{
-		//			"error": "Update failed",
-		//		})
-		//
-		//		return
-		//	}
-		//
-		//	c.JSON(http.StatusOK, map[string]interface{}{
-		//		"update successfully": 1,
-		//	})
-		//})
-		//
-		//user.DELETE("/:id", func(c *gin.Context) {
-		//	id, err := strconv.Atoi(c.Param("id"))
-		//
-		//	if err != nil {
-		//		c.JSON(401, map[string]interface{}{
-		//			"error": err.Error(),
-		//		})
-		//
-		//		return
-		//	}
-		//
-		//	if err := db.Table(User{}.TableName()).Where("id = ?", id).Delete(nil).Error; err != nil {
-		//		c.JSON(401, map[string]interface{}{
-		//			"error": err.Error(),
-		//		})
-		//
-		//		return
-		//	}
-		//
-		//	c.JSON(200, map[string]interface{}{"ok": 1})
-		//})
+		user.DELETE("/:id", ginuser.DeleteUser(appCtx))
 	}
 	r.Run() // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
 }
